@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>B2B Revenue Engine — Sales × Marketing Process Connector</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:    #070c16;
+  --bg2:   #0c1422;
+  --bg3:   #10192b;
+  --bg4:   #141f33;
+  --bdr:   #1a2840;
+  --bdr2:  #213354;
+  --m:     #4f8ef7;
+  --m-d:   rgba(79,142,247,0.1);
+  --m-g:   rgba(79,142,247,0.22);
+  --s:     #f97316;
+  --s-d:   rgba(249,115,22,0.1);
+  --s-g:   rgba(249,115,22,0.22);
+  --c:     #10b981;
+  --c-d:   rgba(16,185,129,0.1);
+  --c-g:   rgba(16,185,129,0.22);
+  --txt:   #c8d8ea;
+  --mut:   #4a6278;
+  --dim:   #243040;
+  --r:     8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--txt);
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:14px;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* Grid BG */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(79,142,247,0.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(79,142,247,0.025) 1px,transparent 1px);
+  background-size:56px 56px;
+}
+
+.app{
+  position:relative;z-index:1;
+  max-width:1200px;margin:0 auto;
+  padding:0 16px 140px;
+}
+
+/* ── HEADER ─────────────────────────── */
+header{
+  display:flex;align-items:center;gap:16px;
+  padding:20px 0 18px;
+  border-bottom:1px solid var(--bdr);
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+.brand{display:flex;align-items:center;gap:12px;}
+.brand-dots{display:flex;gap:4px;}
+.bd{width:11px;height:11px;border-radius:50%;}
+.brand-name{
+  font-family:'Syne',sans-serif;
+  font-size:clamp(17px,3vw,23px);font-weight:800;
+  color:#fff;letter-spacing:-0.3px;
+}
+.brand-tag{
+  font-size:11px;color:var(--mut);
+  margin-top:1px;font-weight:500;
+}
+.hdr-right{margin-left:auto;display:flex;gap:8px;align-items:center;}
+.btn-sm{
+  background:transparent;
+  border:1px solid var(--bdr2);
+  border-radius:var(--r);
+  padding:7px 16px;
+  color:var(--mut);font-family:inherit;
+  font-size:12px;font-weight:600;
+  cursor:pointer;transition:all 0.15s;
+  letter-spacing:0.3px;
+}
+.btn-sm:hover{border-color:var(--txt);color:var(--txt);}
+.btn-sm.on{background:var(--bg3);border-color:var(--bdr2);color:var(--txt);}
+
+/* ── LEGEND ─────────────────────────── */
+.legend{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:18px;flex-wrap:wrap;
+}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:var(--mut);}
+.leg-dot{width:8px;height:8px;border-radius:50%;}
+.leg-hint{margin-left:auto;font-size:11px;color:var(--dim);font-style:italic;}
+
+/* ── CANVAS ─────────────────────────── */
+.canvas-wrap{position:relative;}
+.canvas{
+  display:grid;
+  grid-template-columns:1fr 72px 1fr;
+  position:relative;
+}
+.conn-svg{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  pointer-events:none;overflow:visible;
+  z-index:2;
+}
+
+/* Column headers */
+.col-hdr{
+  font-size:10px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  padding:0 0 12px;
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;
+  border-bottom:1px solid var(--bdr);
+}
+.chd{width:8px;height:8px;border-radius:50%;}
+.col-m .chd{background:var(--m);box-shadow:0 0 8px var(--m);}
+.col-s .chd{background:var(--s);box-shadow:0 0 8px var(--s);}
+.col-m .col-hdr{color:var(--m);}
+.col-s .col-hdr{color:var(--s);}
+
+/* Node cards */
+.node{
+  background:var(--bg2);
+  border:1px solid var(--bdr);
+  border-radius:var(--r);
+  padding:13px 14px;
+  cursor:pointer;
+  transition:all 0.2s ease;
+  margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+  position:relative;
+  overflow:hidden;
+}
+.node::after{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:var(--bdr);
+  transition:background 0.2s;
+}
+.col-m .node.active::after{background:var(--m);}
+.col-s .node.active::after{background:var(--s);}
+
+.col-m .node.active{
+  border-color:var(--m);
+  background:var(--m-d);
+  box-shadow:0 0 18px rgba(79,142,247,0.12);
+}
+.col-s .node.active{
+  border-color:var(--s);
+  background:var(--s-d);
+  box-shadow:0 0 18px rgba(249,115,22,0.12);
+}
+.node.connected{
+  border-color:var(--bdr2);
+  background:var(--bg3);
+}
+.node.dimmed{opacity:0.28;pointer-events:none;}
+.node:hover:not(.dimmed):not(.active){
+  border-color:var(--bdr2);background:var(--bg3);
+  transform:translateX(3px);
+}
+.col-s .node:hover:not(.dimmed):not(.active){transform:translateX(-3px);}
+
+.n-icon{font-size:20px;flex-shrink:0;line-height:1;}
+.n-text{flex:1;min-width:0;}
+.n-name{
+  font-weight:700;font-size:13px;
+  color:var(--txt);white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+}
+.node.active .n-name{color:#fff;}
+.n-sub{font-size:11px;color:var(--mut);margin-top:2px;}
+.n-arrow{
+  font-size:11px;color:var(--dim);flex-shrink:0;
+  transition:color 0.2s,transform 0.2s;
+}
+.node.active .n-arrow{color:var(--mut);transform:translateX(3px);}
+
+/* Center column */
+.col-center{position:relative;}
+
+/* ── CUSTOMER STRIP ─────────────────── */
+.cust-strip{
+  background:var(--bg2);
+  border:1px solid var(--bdr);
+  border-radius:10px;
+  padding:16px 20px;
+  margin-top:12px;
+}
+.cust-hdr{
+  font-size:10px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--c);
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:14px;
+}
+.cust-hdr::before{
+  content:'';width:8px;height:8px;border-radius:50%;
+  background:var(--c);box-shadow:0 0 8px var(--c);
+}
+.cust-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:8px;
+}
+.cust-node{
+  background:var(--bg3);
+  border:1px solid var(--bdr);
+  border-radius:var(--r);
+  padding:12px 8px;
+  cursor:pointer;text-align:center;
+  transition:all 0.2s;
+  display:flex;flex-direction:column;
+  align-items:center;gap:6px;
+}
+.cust-node:hover{border-color:var(--c-g);}
+.cust-node.active{
+  border-color:var(--c);
+  background:var(--c-d);
+  box-shadow:0 0 16px rgba(16,185,129,0.1);
+}
+.cn-icon{font-size:20px;line-height:1;}
+.cn-label{
+  font-size:11px;font-weight:600;
+  color:var(--mut);line-height:1.3;
+}
+.cust-node.active .cn-label{color:var(--c);}
+
+/* ── DETAIL PANEL ───────────────────── */
+.dp{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(10,17,30,0.97);
+  backdrop-filter:blur(16px);
+  border-top:1px solid var(--bdr2);
+  z-index:200;
+  max-height:0;overflow:hidden;
+  transition:max-height 0.38s cubic-bezier(0.4,0,0.2,1);
+}
+.dp.open{max-height:260px;}
+.dp-wrap{
+  max-width:1200px;margin:0 auto;
+  padding:16px 20px 20px;
+}
+.dp-top{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:14px;
+}
+.dp-icon{font-size:24px;}
+.dp-name{
+  font-family:'Syne',sans-serif;
+  font-size:18px;font-weight:800;color:#fff;
+}
+.dp-badge{
+  font-size:9px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;
+}
+.dp-badge.m{background:var(--m-d);color:var(--m);border:1px solid var(--m);}
+.dp-badge.s{background:var(--s-d);color:var(--s);border:1px solid var(--s);}
+.dp-badge.c{background:var(--c-d);color:var(--c);border:1px solid var(--c);}
+.dp-close{
+  margin-left:auto;background:transparent;
+  border:1px solid var(--bdr2);border-radius:6px;
+  color:var(--mut);padding:5px 14px;
+  cursor:pointer;font-family:inherit;font-size:12px;
+  transition:all 0.15s;
+}
+.dp-close:hover{border-color:var(--txt);color:var(--txt);}
+
+.dp-cols{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr 180px;
+  gap:16px;
+}
+.dp-col-hdr{
+  font-size:9px;font-weight:700;
+  letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--mut);margin-bottom:8px;
+}
+.dp-list{list-style:none;}
+.dp-list li{
+  font-size:12px;color:var(--txt);
+  padding:3px 0 3px 14px;
+  position:relative;line-height:1.55;
+}
+.dp-list li::before{
+  content:'→';position:absolute;left:0;
+  color:var(--dim);font-size:10px;top:4px;
+}
+.dp-metric{
+  background:var(--bg3);border:1px solid var(--bdr);
+  border-radius:var(--r);padding:12px;
+}
+.dm-lbl{
+  font-size:9px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--mut);margin-bottom:6px;
+}
+.dm-val{font-size:11px;color:var(--txt);line-height:1.6;}
+
+/* ── FRICTION SECTION ───────────────── */
+.friction-section{
+  margin-top:20px;
+  background:var(--bg2);
+  border:1px solid var(--bdr);
+  border-radius:10px;
+  padding:20px;
+}
+.friction-hdr{
+  font-size:10px;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--mut);margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.friction-hdr::before{
+  content:'⚡';font-size:13px;
+}
+.friction-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:10px;
+}
+.fr-card{
+  background:var(--bg3);
+  border:1px solid var(--bdr);
+  border-radius:var(--r);
+  padding:14px;
+  border-top:2px solid;
+}
+.fr-card.red{border-top-color:#ef4444;}
+.fr-card.amber{border-top-color:#f59e0b;}
+.fr-problem{
+  font-size:12px;font-weight:700;
+  color:var(--txt);margin-bottom:6px;
+  line-height:1.4;
+}
+.fr-fix{font-size:11px;color:var(--mut);line-height:1.6;}
+.fr-tag{
+  display:inline-block;
+  font-size:9px;font-weight:700;letter-spacing:0.5px;
+  text-transform:uppercase;padding:2px 7px;
+  border-radius:3px;margin-bottom:8px;
+}
+.fr-card.red .fr-tag{background:rgba(239,68,68,0.1);color:#ef4444;}
+.fr-card.amber .fr-tag{background:rgba(245,158,11,0.1);color:#f59e0b;}
+
+/* Portfolio bar */
+.portfolio-bar{
+  display:flex;align-items:center;gap:12px;
+  background:var(--bg2);
+  border:1px solid var(--bdr);
+  border-radius:10px;
+  padding:14px 20px;
+  margin-top:20px;
+  flex-wrap:wrap;
+}
+.pb-label{
+  font-size:11px;font-weight:700;
+  letter-spacing:1px;text-transform:uppercase;
+  color:var(--mut);white-space:nowrap;
+}
+.pb-links{display:flex;gap:8px;flex-wrap:wrap;}
+.pb-link{
+  background:var(--bg3);
+  border:1px solid var(--bdr2);
+  border-radius:6px;
+  padding:5px 12px;
+  font-size:11px;font-weight:600;
+  color:var(--mut);text-decoration:none;
+  transition:all 0.15s;
+  display:flex;align-items:center;gap:6px;
+}
+.pb-link:hover{border-color:var(--m);color:var(--m);}
+.pb-link span{font-size:13px;}
+.pb-cta{
+  margin-left:auto;
+  background:var(--m);
+  border:none;border-radius:6px;
+  padding:7px 16px;
+  color:#000;font-family:inherit;
+  font-size:12px;font-weight:700;
+  cursor:pointer;transition:all 0.15s;
+  white-space:nowrap;text-decoration:none;
+  display:inline-block;
+}
+.pb-cta:hover{background:#6fa4f9;transform:translateY(-1px);}
+
+/* SVG paths */
+.cp{
+  fill:none;stroke-width:1.5;stroke-linecap:round;
+  stroke-dasharray:6 4;opacity:0;
+  transition:opacity 0.3s;
+}
+.cp.vis{opacity:1;}
+.cp.vis.anim{stroke-dashoffset:1000;animation:dash 8s linear infinite;}
+@keyframes dash{to{stroke-dashoffset:0;}}
+.cp.m{stroke:var(--m);}
+.cp.s{stroke:var(--s);}
+.cp.c{stroke:var(--c);}
+
+/* Mobile */
+@media(max-width:720px){
+  .canvas{grid-template-columns:1fr;}
+  .col-center,.conn-svg{display:none;}
+  .cust-grid{grid-template-columns:repeat(3,1fr);}
+  .dp-cols{grid-template-columns:1fr 1fr;}
+  .dp-metric{display:none;}
+  .leg-hint{display:none;}
+  .friction-grid{grid-template-columns:1fr 1fr;}
+  .portfolio-bar{flex-direction:column;align-items:flex-start;}
+  .pb-cta{margin-left:0;}
+}
+@media(max-width:480px){
+  .friction-grid{grid-template-columns:1fr;}
+  .cust-grid{grid-template-columns:1fr 1fr;}
+  .dp-cols{grid-template-columns:1fr;}
+}
+
+/* Animations */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.au{animation:fadeUp 0.35s ease both;}
+.au-d1{animation-delay:0.05s;}
+.au-d2{animation-delay:0.1s;}
+.au-d3{animation-delay:0.15s;}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+    <div class="brand-dots">
+      <div class="bd" style="background:#4f8ef7;box-shadow:0 0 8px #4f8ef7;"></div>
+      <div class="bd" style="background:#f97316;box-shadow:0 0 8px #f97316;"></div>
+      <div class="bd" style="background:#10b981;box-shadow:0 0 8px #10b981;"></div>
+    </div>
+    <div>
+      <div class="brand-name">B2B Revenue Engine</div>
+      <div class="brand-tag">Sales × Marketing × Customer Process Connector</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <button class="btn-sm" id="btnAll" onclick="toggleAll()">Show All Connections</button>
+  </div>
+</header>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="leg"><div class="leg-dot" style="background:#4f8ef7;box-shadow:0 0 6px #4f8ef7;"></div>Marketing Activity</div>
+  <div class="leg"><div class="leg-dot" style="background:#f97316;box-shadow:0 0 6px #f97316;"></div>Sales Activity</div>
+  <div class="leg"><div class="leg-dot" style="background:#10b981;box-shadow:0 0 6px #10b981;"></div>Customer Contribution</div>
+  <div class="leg-hint">← Click any node to explore connections →</div>
+</div>
+
+<!-- CANVAS -->
+<div class="canvas-wrap">
+  <svg class="conn-svg" id="connSvg"></svg>
+  <div class="canvas">
+    <div class="col col-m" id="colM">
+      <div class="col-hdr"><div class="chd"></div>Marketing</div>
+    </div>
+    <div class="col-center"></div>
+    <div class="col col-s" id="colS">
+      <div class="col-hdr"><div class="chd"></div>Sales</div>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMER STRIP -->
+<div class="cust-strip">
+  <div class="cust-hdr">Customer Intelligence Loop</div>
+  <div class="cust-grid" id="custGrid"></div>
+</div>
+
+<!-- FRICTION POINTS -->
+<div class="friction-section au au-d2">
+  <div class="friction-hdr">Common Friction Points — Where Revenue Leaks</div>
+  <div class="friction-grid" id="frictionGrid"></div>
+</div>
+
+<!-- PORTFOLIO BAR -->
+<div class="portfolio-bar au au-d3">
+  <div class="pb-label">Portfolio →</div>
+  <div class="pb-links">
+    <a href="https://zov911.github.io/magnet-forensics-investigation-builder/" target="_blank" class="pb-link"><span>🔍</span>Forensics Builder</a>
+    <a href="https://zov911.github.io/tt-generator-calculator/" target="_blank" class="pb-link"><span>⚡</span>Generator Calc</a>
+    <a href="https://zov911.github.io/trim-press-tonnage-calculator/" target="_blank" class="pb-link"><span>🏭</span>Tonnage Calc</a>
+  </div>
+  <a href="https://x.com" target="_blank" class="pb-cta">Connect on X →</a>
+</div>
+
+</div><!-- /app -->
+
+<!-- DETAIL PANEL -->
+<div class="dp" id="dp">
+  <div class="dp-wrap">
+    <div class="dp-top" id="dpTop"></div>
+    <div class="dp-cols" id="dpCols"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════
+   DATA
+═══════════════════════════════════════ */
+const MN = [
+  {
+    id:'m1',icon:'📝',name:'Content Marketing',sub:'Blog, guides, whitepapers, SEO',
+    connects:['s1','s2','s3'],
+    boosts:['Pre-educated leads arrive needing 30% less demo time','Gives SDRs specific articles as personalized conversation openers','Positions brand as authority before the first cold touch'],
+    needs:['Top objections heard on calls → content that pre-handles them','Exact words customers use to describe pain → copy gold','Which competitors come up most → comparison content'],
+    metric:'Organic SQLs / Demo-request rate from content / Content-influenced pipeline'
+  },
+  {
+    id:'m2',icon:'🎯',name:'Paid Advertising',sub:'LinkedIn, Google, Meta ads',
+    connects:['s1','s4'],
+    boosts:['Retargets warm prospects SDRs are already working — doubles reply rates','Brand familiarity increases cold email open rates by 15–25%','Delivers pipeline-ready leads with measurable intent signals'],
+    needs:['Which job titles and firmographics actually close → ICP refinement','Win/loss data by segment → audience targeting optimization','Customer quotes → ad creative that converts'],
+    metric:'Cost per SQL / Pipeline generated from paid / CAC by channel'
+  },
+  {
+    id:'m3',icon:'📧',name:'Email Nurture',sub:'Sequences, newsletters, drip',
+    connects:['s2','s3','s4'],
+    boosts:['Keeps cold prospects warm between sales touchpoints','Triggers re-engagement when prospects revisit pricing pages','Auto-delivers the right case study at the right deal stage'],
+    needs:['Stall points in pipeline → re-engagement email triggers','Which content prospects share with buying committees → prioritize it','Post-demo gaps where deals go cold → automation opportunities'],
+    metric:'Email-influenced pipeline / Re-engagement conversion rate'
+  },
+  {
+    id:'m4',icon:'🎤',name:'Events & Webinars',sub:'Virtual events, conferences, roundtables',
+    connects:['s2','s5'],
+    boosts:['Creates high-intent self-selected leads who already trust you','Gives reps a warm "loved your webinar" opener into hot accounts','Event attendees close 40% faster than cold pipeline'],
+    needs:['Current deal blockers → webinar topics that address them','Happy customers as co-presenters → peer credibility without pressure','Hot account list → personally invite decision-makers'],
+    metric:'Pipeline per event / Attendee-to-SQL rate / Event ROI'
+  },
+  {
+    id:'m5',icon:'🔍',name:'SEO & Organic',sub:'Search, thought leadership, review sites',
+    connects:['s1','s3'],
+    boosts:['"Best X for Y" pages bring bottom-of-funnel buyers ready to talk','Comparison pages help prospects self-qualify before contacting sales','Compounds over time — lowest long-term cost per lead'],
+    needs:['Competitor names that appear most in discovery calls → compare content','Objections that SEO content could pre-handle → FAQ articles','Industry terms prospects actually use → keyword strategy input'],
+    metric:'Organic SQLs / Keyword-driven demo requests / Organic CAC'
+  },
+  {
+    id:'m6',icon:'📱',name:'Social & Community',sub:'LinkedIn, X, community building',
+    connects:['s1','s2','s6'],
+    boosts:['Brand familiarity via social shortens sales cycle for active buyers','SDRs get warm LinkedIn connection before cold email — 2× reply rate','Community members self-promote your brand and generate warm referrals'],
+    needs:['Customer wins worth celebrating → best performing social content','Deal insights that make compelling thought leadership posts','Hot prospect names → engage organically before formal outreach'],
+    metric:'Social-influenced pipeline / Community-sourced leads / Profile-view-to-connect rate'
+  },
+];
+
+const SN = [
+  {
+    id:'s1',icon:'📬',name:'Cold Outreach',sub:'Email sequences, LinkedIn DMs',
+    connects:['m1','m2','m5','m6'],
+    boosts:['Real objections from non-replies → content topics that unblock them','Messaging angles that get responses → ad copy and landing pages','New ICP segments discovered in the field → targeting expansion'],
+    needs:['Content to reference for a personalized first line (relevance hook)','Industry-matched case studies for credibility in cold emails','Retargeting brand presence in target accounts before sequence starts'],
+    metric:'Reply rate / Meeting booked rate / Sequence-to-SQL rate'
+  },
+  {
+    id:'s2',icon:'📞',name:'Discovery Calls',sub:'Qualification, pain identification',
+    connects:['m1','m3','m4','m6'],
+    boosts:['Real customer language becomes the best marketing copy ever written','Pain points uncovered become content topics and ad angles','New use cases discovered → features marketing hasn\'t highlighted'],
+    needs:['Pre-call account intelligence and trigger events','Industry-specific talking points backed by data','Event context for warm follow-up conversations'],
+    metric:'Discovery-to-demo rate / Qualified call ratio / Discovery-to-close rate'
+  },
+  {
+    id:'s3',icon:'🖥️',name:'Product Demos',sub:'Live demonstrations, POC, trials',
+    connects:['m1','m3','m5'],
+    boosts:['Feature questions heard on demos → FAQ content and help articles','Demo friction points → product messaging and positioning updates','Successful demo moments → video content and landing page copy'],
+    needs:['Vertical-specific demo scripts informed by content performance data','ROI calculators and business-case templates for each persona','Competitor one-pagers that pre-handle the inevitable "how do you compare" question'],
+    metric:'Demo-to-proposal rate / Demo completion rate / Demo-influenced close rate'
+  },
+  {
+    id:'s4',icon:'📋',name:'Proposal & Negotiation',sub:'Pricing, business case, procurement',
+    connects:['m2','m3'],
+    boosts:['Win/loss data by segment → pricing page optimization','Lost deal reasons → messaging overhaul for the next campaign','Procurement objections → content that pre-handles legal/security concerns'],
+    needs:['ROI proof points and customer success metrics for business cases','Executive-level one-pagers that justify spend to the CFO','Third-party validation — analyst reports, G2/Capterra reviews, awards'],
+    metric:'Proposal win rate / Average deal size / Discount rate by segment'
+  },
+  {
+    id:'s5',icon:'🤝',name:'Close & Handoff',sub:'Contract, onboarding hand-off',
+    connects:['m4'],
+    boosts:['Win stories from this stage → highest-converting case studies','Successful onboarding patterns → marketing promises that match reality','New customer vertical won → validates expansion targeting for marketing'],
+    needs:['Onboarding content that reinforces the buying decision and reduces buyer\'s remorse','Customer community invitations to increase early stickiness','Expansion use case content to seed during hand-off conversation'],
+    metric:'Close rate / Days to close / First 30-day activation rate'
+  },
+  {
+    id:'s6',icon:'🔄',name:'Account Expansion',sub:'Upsell, cross-sell, renewal',
+    connects:['m6'],
+    boosts:['Expansion patterns reveal the best upsell content topics and triggers','Happy accounts become referral and advocacy pipeline','Usage data reveals unmet needs → new product content angles'],
+    needs:['Feature announcement campaigns and product update content','Customer success stories mapped to cross-sell conversations','Industry benchmark reports to create urgency and expansion rationale'],
+    metric:'Net Revenue Retention / Upsell rate / Expansion ARR'
+  },
+];
+
+const CN = [
+  {
+    id:'c1',icon:'⭐',label:'Testimonials',sub:'Quotes, video reviews, G2',
+    bm:'Testimonials increase landing page conversion 28% and ad CTR 34%. The most trusted content type in B2B.',
+    bs:'Prospect-matched testimonials cut objection-handling time in half during demos.',
+    how:'Ask at 30 days post-onboarding. Offer to draft the quote — 80% say yes. Map quotes to industries and personas.'
+  },
+  {
+    id:'c2',icon:'📖',label:'Case Studies',sub:'ROI stories, before/after',
+    bm:'Case studies are the #1 B2B content type that directly influences purchase decisions at every funnel stage.',
+    bs:'A case study from the same industry removes the "we\'re different" objection before it\'s raised.',
+    how:'Sales flags 3-month post-close wins. Marketing does the interview and writes it. Sales reviews for accuracy.'
+  },
+  {
+    id:'c3',icon:'🗣️',label:'Referrals',sub:'Direct warm introductions',
+    bm:'Referred leads convert 30% faster and have 16% higher lifetime value than any other source.',
+    bs:'A warm referral introduction skips cold outreach, discovery, and credibility-building — straight to qualified.',
+    how:'Build a referral ask into the 90-day QBR. Never ask before clear value is delivered. Make it easy — draft the intro email for them.'
+  },
+  {
+    id:'c4',icon:'🎙️',label:'Co-marketing',sub:'Webinars, guest posts, events',
+    bm:'Customer speakers increase webinar registrations 40% and add credibility no amount of brand content can replicate.',
+    bs:'Prospects watching a customer peer speak = peer validation without any sales pressure.',
+    how:'Invite your top 5 customers to be webinar co-hosts. Give them full credit, visibility, and a speaking kit.'
+  },
+  {
+    id:'c5',icon:'💬',label:'Product Feedback',sub:'Feature requests, NPS, usage data',
+    bm:'Real usage data and customer language are the single best input for content strategy, positioning, and messaging.',
+    bs:'Product improvements driven by customer feedback become powerful re-engagement triggers for cold or churned accounts.',
+    how:'Monthly product council with 5–8 power users. Sales captures feature requests systematically in CRM — not in notebooks.'
+  },
+];
+
+const FRICTION = [
+  {type:'red',problem:'Marketing generates leads. Sales ignores them.',fix:'Implement SLA: marketing-sourced leads get a response within 4 hours. Track it in CRM. Make it visible to both teams.',tag:'MISALIGNMENT'},
+  {type:'red',problem:'Sales never tells marketing what\'s actually happening on calls.',fix:'30-min monthly call between 2 AEs and the content lead. Record it. Marketing mines it for copy, topics, and positioning.',tag:'INFORMATION SILO'},
+  {type:'amber',problem:'ICP is a 2-year-old PDF nobody uses.',fix:'Quarterly win/loss review with marketing present. Update ICP based on actual closed-won data — not assumptions.',tag:'STALE STRATEGY'},
+  {type:'amber',problem:'Customer success stories rot in a folder no one finds.',fix:'Case studies live in CRM, tagged by industry/size/use case. Sales can pull them in 10 seconds during a call.',tag:'ASSET WASTE'},
+  {type:'amber',problem:'Marketing optimizes for MQLs. Sales cares about SQLs.',fix:'Align on one metric: pipeline generated. Both teams own it. Kill vanity MQL targets.',tag:'METRIC MISMATCH'},
+];
+
+/* ═══════════════════════════════════════
+   STATE
+═══════════════════════════════════════ */
+let active = null;
+let showAll = false;
+
+/* ═══════════════════════════════════════
+   BUILD UI
+═══════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded', () => {
+  buildNodes();
+  buildCustomers();
+  buildFriction();
+  setTimeout(drawAll, 100);
+});
+
+function buildNodes() {
+  const cm = document.getElementById('colM');
+  const cs = document.getElementById('colS');
+  MN.forEach(n => cm.appendChild(makeNode(n, 'm')));
+  SN.forEach(n => cs.appendChild(makeNode(n, 's')));
+}
+
+function makeNode(n, type) {
+  const div = document.createElement('div');
+  div.className = 'node';
+  div.id = 'n-' + n.id;
+  div.dataset.id = n.id;
+  div.dataset.type = type;
+  div.innerHTML = `
+    <div class="n-icon">${n.icon}</div>
+    <div class="n-text">
+      <div class="n-name">${n.name}</div>
+      <div class="n-sub">${n.sub}</div>
+    </div>
+    <div class="n-arrow">›</div>`;
+  div.onclick = () => selectNode(n.id, type);
+  return div;
+}
+
+function buildCustomers() {
+  const g = document.getElementById('custGrid');
+  CN.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'cust-node';
+    d.id = 'n-' + c.id;
+    d.dataset.id = c.id;
+    d.dataset.type = 'c';
+    d.innerHTML = `<div class="cn-icon">${c.icon}</div><div class="cn-label">${c.label}</div>`;
+    d.onclick = () => selectCustomer(c.id);
+    g.appendChild(d);
+  });
+}
+
+function buildFriction() {
+  const g = document.getElementById('frictionGrid');
+  FRICTION.forEach(f => {
+    const d = document.createElement('div');
+    d.className = `fr-card ${f.type}`;
+    d.innerHTML = `<div class="fr-tag">${f.tag}</div><div class="fr-problem">${f.problem}</div><div class="fr-fix">✓ Fix: ${f.fix}</div>`;
+    g.appendChild(d);
+  });
+}
+
+/* ═══════════════════════════════════════
+   NODE SELECTION
+═══════════════════════════════════════ */
+function selectNode(id, type) {
+  if (active === id) { clearAll(); return; }
+  showAll = false;
+  document.getElementById('btnAll').classList.remove('on');
+  document.getElementById('btnAll').textContent = 'Show All Connections';
+  active = id;
+
+  const node = type === 'm' ? MN.find(n => n.id === id) : SN.find(n => n.id === id);
+  const connected = node.connects;
+
+  // Update node styles
+  [...MN, ...SN].forEach(n => {
+    const el = document.getElementById('n-' + n.id);
+    if (!el) return;
+    if (n.id === id) el.className = 'node active';
+    else if (connected.includes(n.id)) el.className = 'node connected';
+    else el.className = 'node dimmed';
+  });
+  CN.forEach(c => {
+    const el = document.getElementById('n-' + c.id);
+    if (el) el.className = 'cust-node';
+  });
+
+  drawConnections(id, connected, type);
+  showDetail(node, type);
+}
+
+function selectCustomer(id) {
+  if (active === id) { clearAll(); return; }
+  showAll = false;
+  active = id;
+  const c = CN.find(n => n.id === id);
+
+  [...MN, ...SN].forEach(n => {
+    const el = document.getElementById('n-' + n.id);
+    if (el) el.className = 'node dimmed';
+  });
+  CN.forEach(cn => {
+    const el = document.getElementById('n-' + cn.id);
+    if (el) el.className = cn.id === id ? 'cust-node active' : 'cust-node';
+  });
+
+  clearSVG();
+  showCustomerDetail(c);
+}
+
+function clearAll() {
+  active = null;
+  showAll = false;
+  document.getElementById('btnAll').classList.remove('on');
+  document.getElementById('btnAll').textContent = 'Show All Connections';
+  [...MN, ...SN].forEach(n => {
+    const el = document.getElementById('n-' + n.id);
+    if (el) el.className = 'node';
+  });
+  CN.forEach(c => {
+    const el = document.getElementById('n-' + c.id);
+    if (el) el.className = 'cust-node';
+  });
+  clearSVG();
+  document.getElementById('dp').classList.remove('open');
+}
+
+function toggleAll() {
+  showAll = !showAll;
+  active = null;
+  const btn = document.getElementById('btnAll');
+
+  if (showAll) {
+    btn.classList.add('on');
+    btn.textContent = 'Hide Connections';
+    [...MN, ...SN].forEach(n => {
+      const el = document.getElementById('n-' + n.id);
+      if (el) el.className = 'node';
+    });
+    document.getElementById('dp').classList.remove('open');
+    drawAll();
+  } else {
+    btn.classList.remove('on');
+    btn.textContent = 'Show All Connections';
+    clearSVG();
+  }
+}
+
+/* ═══════════════════════════════════════
+   SVG CONNECTIONS
+═══════════════════════════════════════ */
+function getCenter(id) {
+  const el = document.getElementById('n-' + id);
+  const svg = document.getElementById('connSvg');
+  if (!el || !svg) return null;
+  const er = el.getBoundingClientRect();
+  const sr = svg.getBoundingClientRect();
+  return {
+    x: er.left + er.width / 2 - sr.left,
+    y: er.top + er.height / 2 - sr.top,
+    right: er.right - sr.left,
+    left: er.left - sr.left,
+  };
+}
+
+function drawBezier(svg, x1, y1, x2, y2, cls, anim) {
+  const cp1x = (x1 + x2) / 2;
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('d', `M${x1},${y1} C${cp1x},${y1} ${cp1x},${y2} ${x2},${y2}`);
+  path.setAttribute('class', `cp ${cls} vis${anim ? ' anim' : ''}`);
+  svg.appendChild(path);
+}
+
+function drawConnections(fromId, toIds, type) {
+  clearSVG();
+  const svg = document.getElementById('connSvg');
+  const from = getCenter(fromId);
+  if (!from) return;
+
+  toIds.forEach(tid => {
+    const to = getCenter(tid);
+    if (!to) return;
+    const x1 = type === 'm' ? from.right : from.left;
+    const x2 = type === 'm' ? to.left : to.right;
+    drawBezier(svg, x1, from.y, x2, to.y, type, true);
+  });
+}
+
+function drawAll() {
+  clearSVG();
+  const svg = document.getElementById('connSvg');
+  MN.forEach(n => {
+    const from = getCenter(n.id);
+    if (!from) return;
+    n.connects.forEach(tid => {
+      const to = getCenter(tid);
+      if (!to) return;
+      drawBezier(svg, from.right, from.y, to.left, to.y, 'm', false);
+    });
+  });
+}
+
+function clearSVG() {
+  const svg = document.getElementById('connSvg');
+  if (svg) svg.innerHTML = '';
+}
+
+window.addEventListener('resize', () => {
+  if (showAll) drawAll();
+  else if (active) {
+    const n = MN.find(x => x.id === active) || SN.find(x => x.id === active);
+    if (n) {
+      const type = active.startsWith('m') ? 'm' : 's';
+      drawConnections(active, n.connects, type);
+    }
+  }
+});
+
+/* ═══════════════════════════════════════
+   DETAIL PANEL
+═══════════════════════════════════════ */
+function showDetail(node, type) {
+  const dp = document.getElementById('dp');
+  const top = document.getElementById('dpTop');
+  const cols = document.getElementById('dpCols');
+  const color = type === 'm' ? '#4f8ef7' : '#f97316';
+  const label = type === 'm' ? 'Marketing' : 'Sales';
+  const oppLabel = type === 'm' ? 'Feeds Into Sales' : 'Feeds Into Marketing';
+  const needLabel = type === 'm' ? 'Sales Must Send Back' : 'Marketing Must Send Back';
+
+  top.innerHTML = `
+    <div class="dp-icon">${node.icon}</div>
+    <div class="dp-name">${node.name}</div>
+    <div class="dp-badge ${type}">${label}</div>
+    <button class="dp-close" onclick="clearAll()">✕ Close</button>`;
+
+  const boostItems = node.boosts.map(b => `<li>${b}</li>`).join('');
+  const needItems = node.needs.map(n => `<li>${n}</li>`).join('');
+
+  cols.innerHTML = `
+    <div>
+      <div class="dp-col-hdr" style="color:${color};">▲ ${oppLabel}</div>
+      <ul class="dp-list">${boostItems}</ul>
+    </div>
+    <div>
+      <div class="dp-col-hdr">← ${needLabel}</div>
+      <ul class="dp-list">${needItems}</ul>
+    </div>
+    <div></div>
+    <div class="dp-metric">
+      <div class="dm-lbl">Key Metrics to Track</div>
+      <div class="dm-val">${node.metric}</div>
+    </div>`;
+
+  dp.classList.add('open');
+}
+
+function showCustomerDetail(c) {
+  const dp = document.getElementById('dp');
+  const top = document.getElementById('dpTop');
+  const cols = document.getElementById('dpCols');
+
+  top.innerHTML = `
+    <div class="dp-icon">${c.icon}</div>
+    <div class="dp-name">${c.label}</div>
+    <div class="dp-badge c">Customer Asset</div>
+    <button class="dp-close" onclick="clearAll()">✕ Close</button>`;
+
+  cols.innerHTML = `
+    <div>
+      <div class="dp-col-hdr" style="color:#4f8ef7;">▲ Boosts Marketing</div>
+      <ul class="dp-list"><li>${c.bm}</li></ul>
+    </div>
+    <div>
+      <div class="dp-col-hdr" style="color:#f97316;">▲ Boosts Sales</div>
+      <ul class="dp-list"><li>${c.bs}</li></ul>
+    </div>
+    <div>
+      <div class="dp-col-hdr">→ How to Capture It</div>
+      <ul class="dp-list"><li>${c.how}</li></ul>
+    </div>
+    <div class="dp-metric">
+      <div class="dm-lbl">Sub-category</div>
+      <div class="dm-val">${c.sub}</div>
+    </div>`;
+
+  dp.classList.add('open');
+}
+</script>
+</body>
+</html>
