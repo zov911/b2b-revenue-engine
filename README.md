@@ -22,6 +22,8 @@ A single `index.html`: vanilla JS with an interactive SVG connection map and no 
 
 | Project | What it shows |
 |---|---|
+| [AI Lead Qualification Agent](https://zov911.github.io/ai-lead-qualification-agent/) | Vector + LLM lead scoring with CRM webhooks |
+| [Marketing Signal Dashboard](https://zov911.github.io/marketing-signal-dashboard/) | GA4, Search Console, Bing, sGTM and attribution |
 | [DFIR Investigation Builder](https://zov911.github.io/dfir-investigation-builder/) | Complex technical domain → guided tool |
 | [Generator Sizing Calculator](https://zov911.github.io/generator-sizing-calculator/) | Engineering sizing + buyer/sales views |
 | [Trim Press Tonnage Calculator](https://zov911.github.io/trim-press-tonnage-calculator/) | Industrial calculator |
