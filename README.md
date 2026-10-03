@@ -33,4 +33,4 @@ A single `index.html`: vanilla JS with an interactive SVG connection map and no 
 
 **Reach out → [zov911.com](https://zov911.com)** · [@zov911 on X](https://x.com/zov911)
 
-© 2026 zov911. All rights reserved.
+© zov911. All rights reserved.
