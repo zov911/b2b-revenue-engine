@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.0] - 2026-11-12
+## [2.0.0] - 2026-11-11
 
 ### Added
 - **Show how it works**: a 20-second, 5-step animation of leads leaking between teams, the price of each leak, the yearly total and the fix. Uses the current audit numbers; closes with Esc.
