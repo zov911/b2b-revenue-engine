@@ -274,6 +274,57 @@ dialog .lead{font-size:13px;color:var(--mut);margin-bottom:16px;}
 .toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#fff;color:#000;font-size:13px;font-weight:600;padding:10px 16px;border-radius:8px;opacity:0;pointer-events:none;transition:all .25s;z-index:400;max-width:calc(100% - 32px);text-align:center;}
 .toast.on{opacity:1;transform:translate(-50%,0);}
 #report{display:none;}
+/* ── DEMO ANIMATION ── */
+.hero-btns{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;}
+.hero .hero-btns .btn-pri{margin-left:0;}
+.demo{position:fixed;inset:0;z-index:500;background:rgba(3,6,12,.82);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px;}
+.demo[hidden]{display:none;}
+.demo-box{width:min(760px,100%);background:var(--bg2);border:1px solid var(--bdr2);border-radius:14px;padding:20px 22px;box-shadow:0 30px 80px rgba(0,0,0,.6);}
+.demo-top{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.demo-step{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--mut);}
+.demo-top .dp-close{margin-left:auto;}
+.d-cap{font-family:'Syne',sans-serif;font-size:clamp(18px,3.2vw,24px);font-weight:800;color:#fff;line-height:1.25;min-height:62px;transition:opacity .3s;}
+.d-cap.fade{opacity:0;}
+.d-cap em{font-style:normal;color:#fca5a5;}
+.d-cap strong{color:#6ee7b7;}
+.stage{position:relative;height:270px;margin-top:6px;}
+.d-box{position:absolute;top:10px;width:118px;height:64px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:#fff;}
+.d-box small{font-size:10px;font-weight:600;opacity:.8;margin-top:2px;}
+.d-mk{left:0;background:var(--m-d);border:1px solid var(--m);box-shadow:0 0 18px var(--m-g);}
+.d-sl{right:0;background:var(--s-d);border:1px solid var(--s);box-shadow:0 0 18px var(--s-g);}
+.d-pipe{position:absolute;left:118px;right:118px;top:37px;height:10px;background:var(--bdr2);border-radius:5px;}
+.d-crack{position:absolute;top:0;width:14px;height:10px;background:var(--bg2);border-left:2px solid var(--red);border-right:2px solid var(--red);transform:scaleX(0);transition:transform .4s,background .4s,border-color .4s;}
+.d-crack.on{transform:scaleX(1);}
+.d-crack.fixed{background:var(--c);border-color:var(--c);}
+.d-dot{position:absolute;top:34px;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:var(--m);box-shadow:0 0 8px var(--m);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#000;}
+.d-dot.bad{background:var(--red);box-shadow:0 0 10px var(--red);color:#fff;}
+.d-dot.good{background:var(--c);box-shadow:0 0 10px var(--c);}
+.d-count{position:absolute;top:84px;font-size:11px;color:var(--mut);text-align:center;width:118px;}
+.d-count b{display:block;font-family:'Syne',sans-serif;font-size:22px;color:#fff;}
+.d-count.l{left:0;}.d-count.r{right:0;}
+.d-count.mid{left:50%;transform:translateX(-50%);width:auto;top:118px;color:#fca5a5;opacity:0;transition:opacity .4s;}
+.d-count.mid b{color:var(--red);}
+.d-count.mid.on{opacity:1;}
+.d-chips{position:absolute;left:0;right:0;bottom:6px;display:flex;justify-content:center;gap:8px;flex-wrap:wrap;}
+.d-chip{background:var(--red-d);border:1px solid rgba(239,68,68,.5);color:#fecaca;border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;opacity:0;transform:translateY(10px);transition:all .4s;}
+.d-chip b{color:#fff;margin-left:4px;}
+.d-chip.on{opacity:1;transform:none;}
+.d-chip.fixed{background:var(--c-d);border-color:var(--c);color:#a7f3d0;}
+.d-big{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(60% 60% at 50% 50%,rgba(12,20,34,.97),rgba(12,20,34,.9));opacity:0;pointer-events:none;transition:opacity .4s;text-align:center;}
+.d-big.on{opacity:1;pointer-events:auto;}
+.d-big .n{font-family:'Syne',sans-serif;font-size:clamp(40px,9vw,64px);font-weight:800;color:#fff;text-shadow:0 0 30px rgba(239,68,68,.7);}
+.d-big .n.green{text-shadow:0 0 30px rgba(16,185,129,.7);color:#d1fae5;}
+.d-big .u{font-size:13px;color:var(--mut);margin-top:2px;}
+.d-big .cta{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap;justify-content:center;}
+.d-bar{height:3px;background:var(--bdr);border-radius:2px;margin-top:14px;overflow:hidden;}
+.d-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--m),var(--s),var(--c));}
+.d-note{font-size:10px;color:var(--mut);margin-top:8px;}
+@media(max-width:560px){
+  .d-box{width:88px;font-size:11px;}
+  .d-pipe{left:88px;right:88px;}
+  .d-count{width:88px;}
+  .stage{height:290px;}
+}
 .mbar{display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:150;align-items:center;gap:10px;background:rgba(40,10,14,.94);backdrop-filter:blur(10px);border:1px solid rgba(239,68,68,.5);border-radius:10px;padding:10px 14px;color:#fecaca;font-size:12px;cursor:pointer;box-shadow:0 8px 30px rgba(0,0,0,.5);}
 .mbar b{color:#fff;font-family:'Syne',sans-serif;font-size:18px;}
 .mbar span:last-child{margin-left:auto;font-weight:700;}
@@ -367,7 +418,10 @@ dialog .lead{font-size:13px;color:var(--mut);margin-bottom:16px;}
       <h1>Where does your revenue leak between marketing, sales and customers?</h1>
       <p>Click any node to see what it gives, what it needs, the sales science behind it, and what can be automated.</p>
     </div>
-    <button class="btn-pri" data-go="audit">Price your leaks in 2 min →</button>
+    <div class="hero-btns">
+      <button class="btn-sec" id="bDemo">▶ Show how it works</button>
+      <button class="btn-pri" data-go="audit">Price your leaks in 2 min →</button>
+    </div>
   </div>
 
   <div class="legend">
@@ -507,6 +561,24 @@ dialog .lead{font-size:13px;color:var(--mut);margin-bottom:16px;}
   </div>
 </dialog>
 
+<div class="demo" id="demo" hidden role="dialog" aria-modal="true" aria-label="How the B2B Revenue Engine works">
+  <div class="demo-box">
+    <div class="demo-top"><span class="demo-step" id="dStep">1 / 5</span><button class="dp-close" id="dClose">✕ Close</button></div>
+    <div class="d-cap" id="dCap"></div>
+    <div class="stage" id="dStage">
+      <div class="d-box d-mk">📣 Marketing<small>brings leads</small></div>
+      <div class="d-pipe" id="dPipe"><i class="d-crack" style="left:28%"></i><i class="d-crack" style="left:50%"></i><i class="d-crack" style="left:72%"></i></div>
+      <div class="d-box d-sl">🤝 Sales<small>closes deals</small></div>
+      <div class="d-count l">Leads in<b id="dIn">0</b></div>
+      <div class="d-count r">Reach sales<b id="dOut">0</b></div>
+      <div class="d-count mid" id="dLostWrap">Lost between teams<b id="dLost">0</b></div>
+      <div class="d-chips" id="dChips"></div>
+      <div class="d-big" id="dBig"><div class="n" id="dBigN">$0</div><div class="u" id="dBigU">per year</div><div class="cta" id="dCta"></div></div>
+    </div>
+    <div class="d-bar"><i id="dProg"></i></div>
+    <div class="d-note" id="dNote"></div>
+  </div>
+</div>
 <div class="mbar" id="mbar" role="button" tabindex="0"><span>Cost of inaction</span><b id="mYear">$0</b><span>/yr · see plan ↓</span></div>
 <div class="toast" id="toast" role="status"></div>
 <div id="report"></div>
@@ -1002,6 +1074,110 @@ function printReport(){
   window.print();
 }
 
+/* ═══════════ DEMO ANIMATION ═══════════ */
+const SHORT={sla:'Slow replies',disc:'Demo before discovery',nurt:'"Not now" leads forgotten',cov:'Sellers doing admin'};
+const D={timers:[],flow:null,raf:[]};
+function demoData(){
+  let r=compute();
+  if(!r.items.some(i=>i.on&&!i.l.q)){const keep=S.on;S.on=new Set(['sla','disc','nurt']);r=compute();S.on=keep;}
+  const items=r.items.filter(i=>i.on&&!i.l.q).sort((a,b)=>b.v-a.v).slice(0,3);
+  const total=items.reduce((a,i)=>a+i.v,0);
+  const share=Math.min(.6,total/(r.b.rev+total||1));
+  return {leads:Math.round(S.leads),acv:S.acv,total,share,items,label:IND[S.ind].label};
+}
+function dAt(ms,fn){D.timers.push(setTimeout(fn,ms));}
+function dCount(el,to,dur,fmt=v=>Math.round(v).toLocaleString('en-US'),from=0){
+  const t0=performance.now();
+  const step=t=>{const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)D.raf.push(requestAnimationFrame(step));};
+  D.raf.push(requestAnimationFrame(step));
+}
+function dCaption(html,step){
+  const c=$('dCap');c.classList.add('fade');
+  dAt(250,()=>{c.innerHTML=html;c.classList.remove('fade');});
+  $('dStep').textContent=step+' / 5';
+}
+function dSpawn(mode){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  const st=$('dStage'),p=$('dPipe'),sr=st.getBoundingClientRect(),pr=p.getBoundingClientRect();
+  const x0=pr.left-sr.left,x1=pr.right-sr.left,dot=document.createElement('div');
+  dot.className='d-dot';dot.style.left=x0+'px';st.insertBefore(dot,$('dBig'));
+  const leak=mode==='leak'&&Math.random()<D.share;
+  if(mode==='fix'){dot.classList.add('good');dot.textContent='$';}
+  let a;
+  if(leak){
+    const cx=[.28,.5,.72][Math.floor(Math.random()*3)]*(x1-x0)+7;
+    a=dot.animate([{transform:'translate(0,0)'},{transform:`translate(${cx}px,0)`,offset:.55},{transform:`translate(${cx}px,0)`,offset:.6,background:'#ef4444'},{transform:`translate(${cx}px,90px)`,opacity:0,background:'#ef4444'}],{duration:1900,easing:'ease-in'});
+    setTimeout(()=>{dot.classList.add('bad');dot.textContent='$';},1050);
+  }else{
+    a=dot.animate([{transform:'translate(0,0)'},{transform:`translate(${x1-x0}px,0)`,opacity:1},{transform:`translate(${x1-x0+10}px,0)`,opacity:0}],{duration:1600,easing:'linear'});
+  }
+  a.onfinish=()=>dot.remove();
+}
+function dFlow(mode){clearInterval(D.flow);D.flow=mode?setInterval(()=>dSpawn(mode),230):null;}
+function stopDemo(){
+  D.timers.forEach(clearTimeout);D.timers=[];D.raf.forEach(cancelAnimationFrame);D.raf=[];dFlow(null);
+  document.querySelectorAll('#dStage .d-dot').forEach(d=>d.remove());
+  const pg=$('dProg');pg.getAnimations().forEach(a=>a.cancel());
+}
+function playDemo(){
+  stopDemo();
+  const d=demoData();D.share=d.share;
+  const lost=Math.round(d.leads*d.share);
+  ['dIn','dOut','dLost'].forEach(id=>$(id).textContent='0');
+  $('dLostWrap').classList.remove('on');
+  document.querySelectorAll('.d-crack').forEach(c=>c.classList.remove('on','fixed'));
+  $('dChips').innerHTML=d.items.map(i=>`<span class="d-chip">${SHORT[i.l.k]}<b>${short(i.v)}</b></span>`).join('');
+  $('dBig').classList.remove('on');$('dBigN').classList.remove('green');$('dCta').innerHTML='';
+  $('dNote').textContent=`Example with the audit's current numbers: ${d.leads} leads/month, ${money(d.acv)} average deal (${d.label}). Illustration, not a forecast.`;
+  $('dProg').animate([{width:'0%'},{width:'100%'}],{duration:21000,fill:'forwards'});
+
+  // 1. Leads flow
+  dCaption(`Every month <strong>${d.leads} leads</strong> come in from marketing.`,1);
+  dFlow('ok');dCount($('dIn'),d.leads,3600);dCount($('dOut'),d.leads,3600);
+  // 2. Leaks appear
+  dAt(4000,()=>{
+    dCaption(`But between teams, <em>some quietly leak out.</em>`,2);
+    document.querySelectorAll('.d-crack').forEach((c,i)=>setTimeout(()=>c.classList.add('on'),i*200));
+    $('dLostWrap').classList.add('on');dFlow('leak');
+    dCount($('dLost'),lost,3200);
+    dCount($('dOut'),d.leads-lost,3200,undefined,d.leads);
+  });
+  // 3. Name the leaks
+  dAt(8000,()=>{
+    dCaption(`The engine shows <em>where</em> they leak and what each one costs.`,3);
+    document.querySelectorAll('.d-chip').forEach((c,i)=>setTimeout(()=>c.classList.add('on'),i*600));
+  });
+  // 4. The total
+  dAt(12000,()=>{
+    dFlow(null);
+    dCaption(`Added up, that's your <em>cost of doing nothing.</em>`,4);
+    $('dBig').classList.add('on');$('dBigU').textContent='lost every year';
+    dCount($('dBigN'),d.total,1800,v=>money(v));
+  });
+  // 5. Fix
+  dAt(15500,()=>{
+    $('dBig').classList.remove('on');
+    dCaption(`Fix the leaks and that money <strong>stays in the pipeline.</strong>`,5);
+    document.querySelectorAll('.d-crack').forEach(c=>c.classList.add('fixed'));
+    document.querySelectorAll('.d-chip').forEach(c=>c.classList.add('fixed'));
+    $('dLostWrap').classList.remove('on');
+    dFlow('fix');dCount($('dOut'),d.leads,1500,undefined,d.leads-lost);
+  });
+  // End
+  dAt(19500,()=>{
+    dFlow(null);
+    $('dBigN').classList.add('green');$('dBigN').textContent='+'+money(d.total);
+    $('dBigU').textContent='a year back in the pipeline';
+    $('dCta').innerHTML='<button class="btn-pri" id="dGo">Find your number in 2 min →</button><button class="btn-sec" id="dAgain">↻ Replay</button>';
+    $('dGo').onclick=()=>{closeDemo();setView('audit');};
+    $('dAgain').onclick=playDemo;
+    $('dBig').classList.add('on');
+    $('dCap').innerHTML='That\'s what the B2B Revenue Engine is for.';
+  });
+}
+function openDemo(){$('demo').hidden=false;document.body.style.overflow='hidden';playDemo();$('dClose').focus();}
+function closeDemo(){stopDemo();$('demo').hidden=true;document.body.style.overflow='';$('bDemo').focus();}
+
 /* ═══════════ VIEW ═══════════ */
 function setView(v){
   S.view=v;
@@ -1049,6 +1225,10 @@ window.addEventListener('DOMContentLoaded',()=>{
     toast('Post text copied. Paste it into the LinkedIn window.');
     window.open('https://www.linkedin.com/sharing/share-offsite/?url='+encodeURIComponent('https://zov911.github.io/b2b-revenue-engine/'),'_blank','noopener,width=640,height=640');
   };
+  $('bDemo').onclick=openDemo;
+  $('dClose').onclick=closeDemo;
+  $('demo').addEventListener('click',e=>{if(e.target.id==='demo')closeDemo();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('demo').hidden)closeDemo();});
   $('mbar').onclick=()=>document.querySelector('.result').scrollIntoView({behavior:'smooth',block:'start'});
   if('IntersectionObserver' in window)new IntersectionObserver(es=>es.forEach(e=>$('mbar').classList.toggle('hide',e.isIntersecting))).observe(document.querySelector('.result'));
   const dlg=$('sprintDlg');

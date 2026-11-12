@@ -3,6 +3,7 @@
 ## [2.0.0] - 2026-11-12
 
 ### Added
+- **Show how it works**: a 20-second, 5-step animation of leads leaking between teams, the price of each leak, the yearly total and the fix. Uses the current audit numbers; closes with Esc.
 - **Leak audit**: 4 inputs and 7 leaks produce a yearly cost of inaction, a ranked breakdown and a Smarketing alignment score (0–100).
 - Every dollar leak has an editable assumption and a named source (Coe 2003, Cognism 2021).
 - **Show leaks** mode on the map: leaking hand-offs turn red and drip dollars.

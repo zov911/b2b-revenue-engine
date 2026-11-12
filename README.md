@@ -10,6 +10,7 @@
 
 | | |
 |---|---|
+| ▶ **Show how it works** | A 20-second animation: leads flow from marketing to sales, leak through the cracks, the leaks get priced, then fixed. Uses your audit numbers |
 | 🗺 **Process map** | Click any of the 17 nodes to see what it feeds the other team, what it needs back, the KPIs, the **sales science** behind it and **what can be automated** |
 | 💧 **Show leaks** | Leaking hand-offs turn red and drip dollars. Made for screen-sharing on a call |
 | ⚡ **Leak audit** | 4 numbers + tick your problems → yearly **cost of inaction**, a ranked breakdown and a **Smarketing alignment score** (0–100) |
